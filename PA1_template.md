@@ -58,7 +58,7 @@ data.init$newdate <- strptime(data.init$date, '%Y-%m-%d')
 
 ```r
 #Aggregate data as sum of steps per day:
-data_by_day <- aggregate(steps~date, data = data.init, FUN = sum)
+data_by_day <- aggregate(steps~date, data = data.init[complete.cases(data.init$steps),], FUN = sum)
 #Print head of data:
 head(data_by_day)
 ```
@@ -113,7 +113,7 @@ median_steps_per_day
 
 ```r
 #Aggregate data as avg of steps by interval:
-data_by_interval <- aggregate(steps~interval, data = data.init, FUN = mean)
+data_by_interval <- aggregate(steps~interval, data = data.init[complete.cases(data.init$steps),], FUN = mean)
 #Print head of data:
 head(data_by_interval)
 ```
@@ -145,6 +145,11 @@ ggtitle('Average daily activity timeseries') + theme_bw()
 ```r
 #Find interval with the max number of steps:
 interval_max_activity <- data_by_interval[which.max(data_by_interval$steps),1]
+interval_max_activity
+```
+
+```
+## [1] 835
 ```
 
 ## Imputing missing values
